@@ -6,12 +6,9 @@ const devOrigin = ["http://localhost:5173"];
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigin : devOrigin;
 
-console.log("allowedOrigins: ", allowedOrigins)
-
 app.use(function (req, res, next) {
   // res.header("Access-Control-Allow-Origin", "*");
   const origin = req.headers.origin;
-  console.log("origin: ", origin)
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
