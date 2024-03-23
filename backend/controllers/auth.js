@@ -78,7 +78,7 @@ exports.loginUser = async (req, res, next) => {
         .status(400)
         .send(`Please fill ${!username ? "username" : "password"}`);
     } else {
-      const user = await Users.findOne({ email: username });
+      const user = await Users.findOne({ username: username });
       console.log("user: ", user);
       if (!user) {
         res.status(400).send("Username or password is incorrect");
