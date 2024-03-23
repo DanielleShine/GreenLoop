@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f8f8f8;
+}
+
+.active {
+  @apply bg-[#31572C] text-white max-h-[5rem] h-[5rem] md:h-[3.5rem] sm:h-[3rem] sm:rounded-t-lg sm:pt-0 hover:text-white;
+}
+
+.plastic {
+  background-color: #e27a00;
+  border: 2px solid #e27a00;
+  color: #fff !important;
+}
+.plastic-bottle {
+  background-color: #21a251;
+  border: 2px solid #21a251;
+  color: #fff !important;
+}
+.scrap-metal {
+  background-color: #6b2f0e;
+  border: 2px solid #6b2f0e;
+  color: #fff !important;
+}
+.glass {
+  background-color: #ea4d2a;
+  border: 2px solid #ea4d2a;
+  color: #fff !important;
+}
+.textile {
+  background-color: #c3c639;
+  border: 2px solid #c3c639;
+  color: #fff !important;
+}
+.e-waste {
+  background-color: #4b443e;
+  border: 2px solid #4b443e;
+  color: #fff !important;
+}
+.food-waste {
+  background-color: #b939d9;
+  border: 2px solid #b939d9;
+  color: #fff !important;
+}
+.biodegradable-waste {
+  background-color: #d7b981;
+  border: 2px solid #d7b981;
+  color: #fff !important;
+}
