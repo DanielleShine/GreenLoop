@@ -6,6 +6,8 @@ import Button from "../../components/Common/Button";
 import Input from "../../components/Common/Input";
 import leavesImage from "../../assets/images/signup-side-panel.webp";
 import { signUpUser } from "../../api/auth";
+import mindanaoPlaces from "../../constants/mindanaoPlaces";
+import { useState } from "react";
 
 const organizationType = [
   { value: "Waste Generator", label: "Waste Generator" },
@@ -17,6 +19,7 @@ const SignUp = () => {
   document.title = "Green Loop | Sign Up";
 
   const { register, handleSubmit } = useForm();
+  const [places, setPlaces] = useState([]);
 
   const { mutate: createUser } = useMutation({
     mutationFn: (data) => signUpUser(data),
@@ -35,6 +38,21 @@ const SignUp = () => {
   const onSubmit = (data, e) => {
     e.preventDefault();
     createUser(data);
+  };
+
+  const handleOnChangeProvince = (e) => {
+    if (e.target.id == "provinces" && e.target.value == "Select a Province") {
+      setPlaces([]);
+    } else {
+      const filteredMunicipalities = mindanaoPlaces.filter((province) =>
+        province.name.includes(e.target.value)
+      );
+      console.log("filteredMunicipalities: ", filteredMunicipalities);
+      setPlaces(filteredMunicipalities[0].places);
+
+      document.getElementById("municipalities").value =
+        filteredMunicipalities[0].places[0];
+    }
   };
 
   return (
@@ -111,22 +129,34 @@ const SignUp = () => {
                 </option>
               ))}
             </select>
-            <Input
+            <select
               id="province"
-              type="text"
-              name="province"
-              placeholder="province"
-              className="mt-6"
-              register={{ ...register("province") }}
-            />
-            <Input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block py-0.5 mt-5"
+              {...register("province", {
+                onChange: (e) => handleOnChangeProvince(e),
+                required: "Please select a province",
+              })}
+            >
+              {mindanaoPlaces.map((province, index) => (
+                <option key={index} value={province.name}>
+                  {province.name}
+                </option>
+              ))}
+            </select>
+            <select
               id="cityMunicipality"
-              type="text"
-              name="cityMunicipality"
-              placeholder="city/municipality"
-              className="mt-6"
-              register={{ ...register("cityMunicipality") }}
-            />
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block py-0.5 mt-5"
+              {...register("cityMunicipality", {
+                required: "Please select a city or municipality",
+              })}
+            >
+              {places?.map((place, index) => (
+                <option key={index} value={place}>
+                  {place}
+                </option>
+              ))}
+            </select>
+
             <div className="text-center">
               <Button
                 label="Sign up"

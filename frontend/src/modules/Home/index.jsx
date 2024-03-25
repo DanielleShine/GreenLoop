@@ -11,7 +11,7 @@ const Home = () => {
   document.title = "Green Loop | Home";
 
   const user = JSON.parse(localStorage.getItem("user:detail"));
-  const { wastes, isLoading, error: wasteError } = useWastes();
+  const { wastes, isLoading } = useWastes();
   const isLoggedIn = user !== null || false;
 
   const sortedWaste =

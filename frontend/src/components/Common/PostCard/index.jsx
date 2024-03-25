@@ -12,7 +12,7 @@ const PostCard = ({ props, defaultImage, wasteDefaultImage }) => {
         <article className="p-6">
           <footer className="flex items-left">
             <div className="flex items-left mb-5">
-              <p className="inline-flex items-center mr-3 text-sm font-semibold text-black">
+              <span className="inline-flex items-center mr-3 text-sm font-semibold text-black">
                 <Link to={`profile/${user?._id}`}>
                   <img
                     className="w-11 h-11 mr-5 rounded-full cursor-pointer hover:opacity-80 xsm:w-9 xsm:h-9 xsm:mr-3"
@@ -26,7 +26,7 @@ const PostCard = ({ props, defaultImage, wasteDefaultImage }) => {
                 >
                   {user?.companyName ? user.companyName : "User"}
                 </Link>
-              </p>
+              </span>
             </div>
           </footer>
           <p className="text-gray-900 text-left xsm:text-[0.7rem]">{post}</p>

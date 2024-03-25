@@ -54,8 +54,6 @@ exports.registerUser = async (req, res, next) => {
           },
         });
 
-        newUser.save();
-
         bcryptjs.hash(password, 10, (err, hashedPassword) => {
           newUser.set("password", hashedPassword);
           newUser.save();

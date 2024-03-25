@@ -2,14 +2,14 @@ import { io } from "socket.io-client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { useWindowSize } from "@uidotdev/usehooks";
+
+import { TbSend, TbCirclePlus, TbArrowLeft } from "react-icons/tb";
 
 import Input from "../../components/Common/Input";
 import { getConversations, getMessages } from "../../api/conversation";
 import { sendUserMessage } from "../../api/message";
 
-import { TbSend, TbCirclePlus, TbArrowLeft } from "react-icons/tb";
-
-import { useWindowSize } from "@uidotdev/usehooks";
 import defaultImage from "../../assets/images/default-image.jpg";
 import { getEndpoint, socketPort } from "../../utils/Helper";
 
@@ -155,9 +155,10 @@ const Chat = () => {
   };
 
   console.log("receiverUserTest: ", receiverUser);
+  console.log("conversations: ", conversations);
 
   return (
-    <div className="w-full h-full bg-white" id="profile">
+    <div className="w-full h-full" id="profile">
       <div className="flex pt-[3.8rem] border-grey rounded">
         {isMobile ? (
           <>
@@ -181,7 +182,7 @@ const Chat = () => {
                             ? receiverUser.image.url
                             : defaultImage
                         }
-                        alt="Marie Zulfikar"
+                        alt={receiverUser?.companyName}
                       />
                       <h4 className="text-sm font-semibold text-gray-900">
                         {receiverUser?.companyName}
@@ -194,7 +195,7 @@ const Chat = () => {
                     ? conversations.map((convo) => {
                         return (
                           <Link
-                            key={conversationId}
+                            key={convo.conversation.conversationId}
                             className="w-full flex justify-center text-left py-8 sm:px-5 sm:py-1 sm:my-2 xsm:justify-start overflow-x-hidden"
                             onClick={() => {
                               fetchMessages(
@@ -205,7 +206,7 @@ const Chat = () => {
                           >
                             <div className="flex items-center">
                               <img
-                                className="rounded-full flex-shrink-0 mr-5 border border-primary"
+                                className="h-10 w-10 rounded-full flex-shrink-0 mr-5 border border-primary"
                                 src={
                                   convo.conversation?.sender?.image?.url
                                     ? convo.conversation.sender.image.url
@@ -230,6 +231,7 @@ const Chat = () => {
                         </div>
                       )}
                 </div>
+                {console.log("onMessages: ", messages)}
                 <div className="h-full overflow-y-auto mb-[6.5rem]">
                   <div className="p-14 sm:p-0 ">
                     {messages?.messages?.length > 0 && openConvo

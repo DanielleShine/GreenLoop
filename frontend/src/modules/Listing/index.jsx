@@ -32,7 +32,7 @@ const Listing = ({ myWaste }) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const searchQuery = searchParams.get("search") || "";
+  const filterQuery = searchParams.get("filter") || "";
   const province = searchParams.get("province") || "";
   const cityMunicipality = searchParams.get("cityMunicipality") || "";
   const category = searchParams.get("category") || "";
@@ -40,8 +40,8 @@ const Listing = ({ myWaste }) => {
   const { wastes, isLoading } = useWastes();
 
   let wasteItems;
-  if (searchQuery) {
-    wasteItems = wastes?.filter((waste) => waste.post.includes(searchQuery));
+  if (filterQuery) {
+    wasteItems = wastes?.filter((waste) => waste.post.includes(filterQuery));
   } else {
     wasteItems = wastes;
   }
@@ -54,6 +54,7 @@ const Listing = ({ myWaste }) => {
   const [filteredWaste, setFilteredWaste] = useState({});
 
   const wasteToDisplay = myWaste ? myWaste : wasteItems;
+  console.log("wasteToDisplay: ", wasteToDisplay);
   const origWaste =
     province.length > 0 || category?.length > 0
       ? filteredWaste
@@ -420,16 +421,16 @@ const Listing = ({ myWaste }) => {
                 Filter
               </h1>
             </div>
-            <ul className="absolute -right-0 px-6">
+            <div className="absolute -right-0 px-6">
               <label
                 htmlFor="provinces"
-                className="block mb-2 text-sm font-medium text-gray-900 mt-5"
+                className="block mb-2 text-clamp-xs font-medium text-gray-900 mt-5"
               >
                 Select a Province
               </label>
               <select
                 id="provinces"
-                className="border border-gray-300 text-sm rounded-lg block w-full p-2.5 "
+                className="border border-gray-300 text-clamp-xs rounded-lg block w-full p-2.5 "
                 onChange={(e) => handleOnChangeProvince(e)}
               >
                 {mindanaoPlaces.map((province, index) => (
@@ -440,13 +441,13 @@ const Listing = ({ myWaste }) => {
               </select>
               <label
                 htmlFor="municipalities"
-                className="block mb-2 text-sm font-medium text-gray-900 mt-5"
+                className="block mb-2 text-clamp-xs font-medium text-gray-900 mt-5"
               >
                 Select a City or Municipality
               </label>
               <select
                 id="municipalities"
-                className="border text-sm rounded-lg w-full p-2.5 "
+                className="border text-clamp-xs rounded-lg w-full p-2.5 "
                 onChange={(e) => handleOnChangeCityMunicipality(e)}
               >
                 {places?.map((place, index) => (
@@ -457,7 +458,7 @@ const Listing = ({ myWaste }) => {
               </select>
               <label
                 htmlFor="category"
-                className="block mb-2 text-sm rounded-lg w-full mt-5"
+                className="block mb-2 text-clamp-xs rounded-lg w-full mt-5"
               >
                 Category
               </label>
@@ -465,7 +466,7 @@ const Listing = ({ myWaste }) => {
                 <div
                   id="category"
                   key={index}
-                  className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]"
+                  className="mb-[0.125rem] text-clamp-xs block min-h-[1.5rem] pl-[1.5rem]"
                 >
                   <input
                     id={category}
@@ -482,7 +483,7 @@ const Listing = ({ myWaste }) => {
                   </label>
                 </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
