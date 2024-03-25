@@ -103,7 +103,7 @@ const SignUp = () => {
               id="password"
               type="password"
               name="password"
-              placeholder="password"
+              placeholder="password: min 8 characters"
               className="mb-1"
               register={{ ...register("password") }}
             />
