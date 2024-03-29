@@ -110,7 +110,9 @@ exports.loginUser = async (req, res, next) => {
                   username: user.username,
                   companyName: user.companyName,
                   province: user.province,
+                  organizationType: user.organizationType,
                   cityMunicipality: user.cityMunicipality,
+                  isAdmin: user.isAdmin,
                 },
                 token: token,
               });

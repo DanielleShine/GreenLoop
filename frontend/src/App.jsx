@@ -46,6 +46,7 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const user = JSON.parse(localStorage.getItem("user:detail"));
   const [hideModals, setHideModals] = useState(false);
 
   const { width } = useWindowSize();
@@ -90,7 +91,9 @@ const App = () => {
             >
               <Route index element={<Home />} />
               <Route path="listing" element={<Listing />} />
-              <Route path="post" element={<Post />} />
+              {!user.organizationType === "Waste Generator" && (
+                <Route path="post" element={<Post />} />
+              )}
               <Route path="profile/:id" element={<Profile />} />
               <Route path="profile" element={<Profile />} />
               <Route path="chats" element={<Chat />} />

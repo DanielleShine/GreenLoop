@@ -14,16 +14,6 @@ const Home = () => {
   const { wastes, isLoading } = useWastes();
   const isLoggedIn = user !== null || false;
 
-  const sortedWaste =
-    wastes &&
-    wastes?.length > 0 &&
-    wastes?.sort((a, b) => {
-      return (
-        new Date(b.waste?.createdAt).getTime() -
-        new Date(a.waste?.createdAt).getTime()
-      );
-    });
-
   if (isLoading) return;
 
   return (
@@ -36,7 +26,7 @@ const Home = () => {
           </Link>
           {wastes &&
             wastes?.length > 0 &&
-            sortedWaste?.map((waste, index) => (
+            wastes?.map((waste, index) => (
               <PostCard
                 key={index}
                 props={waste}

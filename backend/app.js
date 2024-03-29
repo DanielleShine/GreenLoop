@@ -34,20 +34,6 @@ app.use(
 );
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (allowedOrigins.includes(origin)) {
-//         console.log(origin, allowedOrigins);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   })
-// );
-
 const port = process.env.PORT || 8000;
 
 require("./controllers/socket");

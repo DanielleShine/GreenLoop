@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { signOutUser } from "../../../api/user";
 
 const SettingsDropdown = ({ userData }) => {
+  const user = JSON.parse(localStorage.getItem("user:detail"));
   const navigate = useNavigate();
+
 
   const signOut = async () => {
     navigate("/users/sign-in");
@@ -22,7 +24,7 @@ const SettingsDropdown = ({ userData }) => {
         </div>
       </Link>
       <ul className="py-1">
-        {userData?.isAdmin && (
+        {user.isAdmin && (
           <li>
             <Link to="dashboard/users">
               <span
