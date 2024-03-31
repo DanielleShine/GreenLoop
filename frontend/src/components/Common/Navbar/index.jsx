@@ -102,7 +102,7 @@ const Navbar = () => {
     width > 900 ? setHideMenuLabels(true) : setHideMenuLabels(false);
   }, [width]);
 
-  console.log("userData: ", userData);
+  console.log("user: ", user);
   return (
     <>
       <header
@@ -211,32 +211,68 @@ const Navbar = () => {
                     </div>
                   );
                 } else {
-                  return (
-                      !menu.name.includes("Post") && !user.organizationType.includes("Recycling Startup") && (
-                      <NavLink
+                  console.log(
+                    "userData: ",
+                    userData &&
+                      userData[0].organizationType.includes("Recycling Startup")
+                  );
+                  return userData &&
+                    userData[0].organizationType.includes(
+                      "Recycling Startup"
+                    ) &&
+                    !menu.name.includes("Post") ? (
+                    <NavLink
                       key={index}
                       to={menu.route}
                       className="px-6 text-[#31572C] h-[5rem] cursor-pointer hover:text-white hover:bg-[#5e8759] duration-200 lg:px-6 md:h-[3.5rem] sm:h-[3rem] md:px-[1.1rem] xsm:px-[1.3rem] 2xsm:px-[1rem]"
-                      >
-                        <span className="flex flex-col text-center items-center justify-center w-full h-[5rem] md:h-[3.5rem] sm:h-[3rem] sm:text-xl">
-                          {menu.name.includes("Notifications") &&
-                            newMessages.length > 0 && (
-                              <span className="absolute top-2 bg-red-500 text-white w-4 h-4 text-center justify-between rounded-full font-medium text-xs">
-                                {newMessages.length}
-                              </span>
-                            )}
-                          {menu.icon}
-
-                          {hideMenuLabels && (
-                            <span
-                              className={`text-sm lg:text-[0.7rem] translate-y-1 duration-200`}
-                            >
-                              {menu.name}
+                    >
+                      <span className="flex flex-col text-center items-center justify-center w-full h-[5rem] md:h-[3.5rem] sm:h-[3rem] sm:text-xl">
+                        {menu.name.includes("Notifications") &&
+                          newMessages.length > 0 && (
+                            <span className="absolute top-2 bg-red-500 text-white w-4 h-4 text-center justify-between rounded-full font-medium text-xs">
+                              {newMessages.length}
                             </span>
                           )}
-                        </span>
-                      </NavLink>
-                    )
+                        {menu.icon}
+
+                        {hideMenuLabels && (
+                          <span
+                            className={`text-sm lg:text-[0.7rem] translate-y-1 duration-200`}
+                          >
+                            {menu.name}
+                          </span>
+                        )}
+                      </span>
+                    </NavLink>
+                  ) : (
+                    userData &&
+                      userData[0].organizationType.includes(
+                        "Waste Generator" || "Informal Waste Sector"
+                      ) && (
+                        <NavLink
+                          key={index}
+                          to={menu.route}
+                          className="px-6 text-[#31572C] h-[5rem] cursor-pointer hover:text-white hover:bg-[#5e8759] duration-200 lg:px-6 md:h-[3.5rem] sm:h-[3rem] md:px-[1.1rem] xsm:px-[1.3rem] 2xsm:px-[1rem]"
+                        >
+                          <span className="flex flex-col text-center items-center justify-center w-full h-[5rem] md:h-[3.5rem] sm:h-[3rem] sm:text-xl">
+                            {menu.name.includes("Notifications") &&
+                              newMessages.length > 0 && (
+                                <span className="absolute top-2 bg-red-500 text-white w-4 h-4 text-center justify-between rounded-full font-medium text-xs">
+                                  {newMessages.length}
+                                </span>
+                              )}
+                            {menu.icon}
+
+                            {hideMenuLabels && (
+                              <span
+                                className={`text-sm lg:text-[0.7rem] translate-y-1 duration-200`}
+                              >
+                                {menu.name}
+                              </span>
+                            )}
+                          </span>
+                        </NavLink>
+                      )
                   );
                 }
               })}
