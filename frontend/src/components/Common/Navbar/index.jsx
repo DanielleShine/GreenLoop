@@ -45,7 +45,7 @@ const Menus = [
     route: "chats",
   },
   {
-    name: "Notice",
+    name: "Notifications",
     icon: <IoNotificationsOutline className={iconSizes} />,
     route: "notifications",
   },
