@@ -91,9 +91,7 @@ const App = () => {
             >
               <Route index element={<Home />} />
               <Route path="listing" element={<Listing />} />
-              {!user.organizationType === "Waste Generator" && (
-                <Route path="post" element={<Post />} />
-              )}
+              <Route path="post" element={<Post />} />
               <Route path="profile/:id" element={<Profile />} />
               <Route path="profile" element={<Profile />} />
               <Route path="chats" element={<Chat />} />

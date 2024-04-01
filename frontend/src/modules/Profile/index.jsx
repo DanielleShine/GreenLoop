@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import { createConversation } from "../../api/conversation";
 import defaultImage from "../../assets/images/default-image.jpg";
 import { useUploadImage } from "../../hooks/useUploadImage";
 import { useUser } from "../../hooks/useUser";
+import mindanaoPlaces from "../../constants/mindanaoPlaces";
 
 const Profile = () => {
   document.title = "Green Loop | Profile";
@@ -40,9 +41,29 @@ const Profile = () => {
   const { register, handleSubmit, reset } = useForm();
 
   const [inputType, setInputType] = useState("password");
+  const [places, setPlaces] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
+  const handleOnChangeProvince = (e) => {
+    if (e.target.id == "provinces" && e.target.value == "Select a Province") {
+      setPlaces([]);
+    } else {
+      const filteredMunicipalities = mindanaoPlaces.filter((province) =>
+        province.name.includes(e.target.value)
+      );
+      setPlaces(filteredMunicipalities[0].places);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+    const filteredMunicipalities = mindanaoPlaces.filter((province) =>
+      province.name.includes(user[0].province)
+    );
+    setPlaces(filteredMunicipalities[0].places);
+  };
 
   const { mutate: messageCompany } = useMutation({
     mutationFn: () => createConversation(decToken.userId, profileId),
@@ -83,6 +104,10 @@ const Profile = () => {
     setImagePreview("");
   };
 
+  useMemo(() => {
+    reset(user && user[0]);
+  }, [user, reset]);
+
   return (
     <div
       className="grid w-full py-6 overflow-x-hidden bg-[#F8F8F8]"
@@ -110,7 +135,7 @@ const Profile = () => {
                 </p>
                 {profileType ? (
                   <span
-                    onClick={() => setShowModal(true)}
+                    onClick={() => handleOpenModal()}
                     className="text-black border bg-primary-700 cursor-pointer hover:bg-[#F8F8F8] focus:ring-4 focus:ring-primary-300 font-semithin rounded-full text-sm px-10 py-1 text-center inline-flex items-center md:text-clamp-xs md:px-6"
                   >
                     Edit Profile
@@ -185,7 +210,7 @@ const Profile = () => {
                               </p>
                             </div>
 
-                            <div className="relative overflow-hidden py-5">
+                            <div className="relative overflow-hidden py-2">
                               <table className="w-full mx-6 text-clamp-xs text-left  rtl:text-right text-gray-500 sm:mx-2">
                                 <tbody>
                                   <tr className="bg-white">
@@ -201,7 +226,6 @@ const Profile = () => {
                                         name="companyName"
                                         id="companyName"
                                         className=" w-4/5 rounded-md text-[#5b5c61] border-none focus:ring-transparent focus:border-transparent focus:text-black md:w-24"
-                                        defaultValue={user[0].companyName}
                                         {...register("companyName")}
                                       />
                                     </td>
@@ -219,7 +243,6 @@ const Profile = () => {
                                         name="username"
                                         id="username"
                                         className="w-4/5 rounded-md text-[#5b5c61] border-none focus:ring-transparent focus:border-transparent focus:text-black md:w-24"
-                                        defaultValue={user[0].username}
                                         {...register("username")}
                                       />
                                     </td>
@@ -237,7 +260,6 @@ const Profile = () => {
                                         name="password"
                                         id="password"
                                         className="w-4/5 rounded-md text-[#5b5c61] border-none focus:ring-transparent focus:border-transparent focus:text-black md:w-24"
-                                        defaultValue={user[0].password}
                                         {...register("password")}
                                         onMouseOut={() =>
                                           setInputType("password")
@@ -279,26 +301,8 @@ const Profile = () => {
                                         name="organizationType"
                                         id="organizationType"
                                         className="w-4/5 rounded-md text-[#5b5c61] border-none focus:ring-transparent focus:border-transparent focus:text-black md:w-24"
-                                        defaultValue={user[0].organizationType}
+                                        {...register("organizationType")}
                                         disabled
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr className="bg-white ">
-                                    <th
-                                      scope="row"
-                                      className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                                    >
-                                      City/Municipality:
-                                    </th>
-                                    <td className="px-6 py-2">
-                                      <input
-                                        type="text"
-                                        name="cityMunicipality"
-                                        id="cityMunicipality"
-                                        className="w-4/5 rounded-md text-[#5b5c61] border-none focus:ring-transparent focus:border-transparent focus:text-black md:w-24"
-                                        defaultValue={user[0].cityMunicipality}
-                                        {...register("cityMunicipality")}
                                       />
                                     </td>
                                   </tr>
@@ -310,14 +314,50 @@ const Profile = () => {
                                       Province:
                                     </th>
                                     <td className="px-6 py-2">
-                                      <input
-                                        type="text"
-                                        name="province"
+                                      <select
                                         id="province"
-                                        className="w-4/5 rounded-md text-[#5b5c61] border-none focus:ring-transparent focus:border-transparent focus:text-black md:w-24"
-                                        defaultValue={user[0].province}
-                                        {...register("province")}
-                                      />
+                                        className="bg-gray-50 border w-44 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1.5"
+                                        {...register("province", {
+                                          onChange: (e) =>
+                                            handleOnChangeProvince(e),
+                                          required: "Please select a province",
+                                        })}
+                                      >
+                                        {mindanaoPlaces.map(
+                                          (province, index) => (
+                                            <option
+                                              key={index}
+                                              value={province.name}
+                                            >
+                                              {province.name}
+                                            </option>
+                                          )
+                                        )}
+                                      </select>
+                                    </td>
+                                  </tr>
+                                  <tr className="bg-white ">
+                                    <th
+                                      scope="row"
+                                      className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
+                                    >
+                                      City/Municipality:
+                                    </th>
+                                    <td className="px-6 py-2">
+                                      <select
+                                        id="cityMunicipality"
+                                        className="bg-gray-50 border border-gray-300 w-44 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1.5"
+                                        {...register("cityMunicipality", {
+                                          required:
+                                            "Please select a city or municipality",
+                                        })}
+                                      >
+                                        {places?.map((place, index) => (
+                                          <option key={index} value={place}>
+                                            {place}
+                                          </option>
+                                        ))}
+                                      </select>
                                     </td>
                                   </tr>
                                 </tbody>

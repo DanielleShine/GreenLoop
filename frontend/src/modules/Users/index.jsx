@@ -16,6 +16,7 @@ import mindanaoPlaces from "../../constants/mindanaoPlaces";
 export default function Users() {
   document.title = "Green Loop | Dashboard";
   const queryClient = useQueryClient();
+
   const [userData, setUserData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [places, setPlaces] = useState([]);
@@ -24,8 +25,12 @@ export default function Users() {
   const { image, fetchImage, imagePreview, setImage, setImagePreview } =
     useUploadImage();
   const { register, handleSubmit, reset } = useForm({
-    defaultValues: { isAdmin: userData?.isAdmin },
+    defaultValues: {
+      isAdmin: userData?.isAdmin,
+      cityMunicipality: userData?.cityMunicipality,
+    },
   });
+  console.log("userData: ", userData.cityMunicipality);
 
   const handleOnChangeProvince = (e) => {
     if (e.target.id == "provinces" && e.target.value == "Select a Province") {
@@ -34,17 +39,17 @@ export default function Users() {
       const filteredMunicipalities = mindanaoPlaces.filter((province) =>
         province.name.includes(e.target.value)
       );
-      console.log("filteredMunicipalities: ", filteredMunicipalities);
       setPlaces(filteredMunicipalities[0].places);
-
-      document.getElementById("municipalities").value =
-        filteredMunicipalities[0].places[0];
     }
   };
 
   const getUserData = (userId) => {
     const userRecord = allUsers.filter((user) => user.id == userId);
     setUserData(userRecord[0]);
+    const filteredMunicipalities = mindanaoPlaces.filter((province) =>
+      province.name.includes(userRecord[0].province)
+    )[0];
+    setPlaces(filteredMunicipalities.places);
     setShowModal(true);
   };
 
@@ -104,7 +109,7 @@ export default function Users() {
     reset(userData);
   }, [userData, reset]);
 
-  console.log("userData: ".userData);
+  console.log("userData: ", userData);
   return (
     <div className="overflow-x-scroll">
       <div className="px-4 justify-start mb-5">
@@ -121,7 +126,9 @@ export default function Users() {
           <Table>
             <Table.Header
               data={userHeader}
-              render={(header) => <Table.Column key={header} header={header} />}
+              render={(header, index) => (
+                <Table.Column key={index} header={header} />
+              )}
             />
             <Table.Body>
               {allUsers?.map((user, i) => (
