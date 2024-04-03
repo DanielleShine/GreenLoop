@@ -10,7 +10,7 @@ import { useWastes } from "../../hooks/useWaste";
 import { deleteWaste, updateWaste } from "../../api/waste";
 import { wasteHeader } from "../../constants/wasteHeader";
 
-import { wasteCategories } from "../../constants/wasteCategories";
+import wasteCategories from "../../constants/wasteCategories";
 
 export default function Wastes() {
   document.title = "Green Loop | Dashboard";

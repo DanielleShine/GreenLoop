@@ -8,7 +8,7 @@ import ButtonOutline from "../../components/Common/ButtonOutline";
 import { useUploadImage } from "../../hooks/useUploadImage";
 import ErrorMessage from "../../components/Common/Message/ErrorMessage";
 import { uploadPost } from "../../api/waste";
-import { wasteCategories } from "../../constants/wasteCategories";
+import wasteCategories from "../../constants/wasteCategories";
 
 const Post = () => {
   document.title = "Green Loop | Post";
