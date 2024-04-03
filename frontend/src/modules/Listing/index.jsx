@@ -31,6 +31,7 @@ const Listing = ({ myWaste }) => {
   document.title = "Green Loop | Listing";
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const user = JSON.parse(localStorage.getItem("user:detail"));
 
   const filterQuery = searchParams.get("filter") || "";
   const province = searchParams.get("province") || "";
@@ -494,7 +495,7 @@ const Listing = ({ myWaste }) => {
         >
           {currentPosts?.length ? (
             currentPosts?.map((waste, index) => (
-              <ListingCard key={index} waste={waste} />
+              <ListingCard key={index} waste={waste} loggedInUser={user}/>
             ))
           ) : (
             <span className="flex grid-cols-2 w-full text-3xl font-semibold justify-center items-center">

@@ -1,6 +1,6 @@
-const Waste = require("../models/Waste");
-const Users = require("../models/Users");
-const Cloudinary = require("../utils/cloudinary");
+const Waste = require("../../models/waste.model");
+const Users = require("../../models/user.model");
+const Cloudinary = require("../../utils/cloudinary");
 
 const wasteItems = (user, waste) => {
   return (
@@ -10,6 +10,7 @@ const wasteItems = (user, waste) => {
       post: waste?.post,
       wasteCategory: waste?.wasteCategory,
       image: waste?.image,
+      available: waste?.available,
       createdAt: waste?.createdAt,
     }
   );
@@ -27,29 +28,6 @@ exports.fetchWastes = async (req, res) => {
     );
 
     res.status(200).json(await wasteData);
-  } catch (error) {
-    console.log("Error", error);
-  }
-};
-
-exports.fetchUserWaste = async (req, res) => {
-  try {
-    const { userId } = req.body;
-    const wastes = await Waste.find({ user: userId });
-    const wasteData = Promise.all(
-      wastes.map(async (waste) => {
-        return {
-          waste: {
-            post: waste.post,
-            wasteCategory: waste.wasteCategory,
-            image: waste.image,
-            user: waste.user,
-          },
-        };
-      })
-    );
-
-    res.status(200).json(wasteData);
   } catch (error) {
     console.log("Error", error);
   }
@@ -120,6 +98,22 @@ exports.deleteWaste = async (req, res) => {
   try {
     console.log("req.params", req.params);
     await Waste.findByIdAndDelete(req.params.wasteId);
+  } catch (error) {
+    console.log("Error", error);
+  }
+};
+
+exports.wasteAvailableOrNot = async (req, res) => {
+  try {
+    const wasteId = req.params.wasteId;
+    const { available } = req.body;
+    const waste = await Waste.updateOne(
+      { _id: wasteId },
+      {
+        $set: { available: Boolean(available) },
+      }
+    );
+    console.log("wasteUpdatedAvailable: ", waste);
   } catch (error) {
     console.log("Error", error);
   }

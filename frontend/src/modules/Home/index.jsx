@@ -22,7 +22,7 @@ const Home = () => {
         <div className="max-w-screen-md px-6 mx-auto flex flex-col text-center justify-center w-[40%] 2xl:w-[45%] xl:w-[55%] lg:w-[80%] lg:px-16 sm:px-8 xsm:px-0 2xsm:px-0">
           <GreetingCard user={user} />
           <Link to="listing">
-            <Card wasteLength={wastes?.length} />
+            <Card wasteLength={wastes?.length} /> 
           </Link>
           {wastes &&
             wastes?.length > 0 &&
@@ -32,6 +32,7 @@ const Home = () => {
                 props={waste}
                 defaultImage={defaultImage}
                 wasteDefaultImage={wasteDefaultImage}
+                loggedInUser={user}
               />
             ))}
         </div>
