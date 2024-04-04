@@ -1,6 +1,6 @@
-const Waste = require("../../models/waste.model");
-const Users = require("../../models/user.model");
-const Cloudinary = require("../../utils/cloudinary");
+const Waste = require("../models/Waste");
+const Users = require("../models/Users");
+const Cloudinary = require("../utils/cloudinary");
 
 const wasteItems = (user, waste) => {
   return (

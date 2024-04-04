@@ -1,4 +1,4 @@
-export const wasteCategories = [
+const wasteCategories = [
   "Plastic",
   "Plastic Bottle",
   "Glass",
@@ -8,3 +8,5 @@ export const wasteCategories = [
   "Food waste",
   "Biodegradable Waste",
 ];
+
+export default wasteCategories

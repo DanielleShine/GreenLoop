@@ -16,3 +16,10 @@ export const updateWaste = async (wasteId, data) => {
 export const deleteWaste = async (wasteId) => {
   return await axios.delete(`${getEndpoint}/api/wastes/${wasteId}`);
 };
+
+export const updateWasteAvailableOrNot = async (wasteId, payload) => {
+  return await axios.put(
+    `${getEndpoint}/api/wastes/${wasteId}/availability`,
+    payload
+  );
+};
