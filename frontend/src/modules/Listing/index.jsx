@@ -399,7 +399,7 @@ const Listing = ({ myWaste }) => {
       <div className="flex">
         {!myWaste && (
           <div
-            className={`z-50  ${open ? "w-80" : "w-0"} ${
+            className={`z-10  ${open ? "w-80" : "w-0"} ${
               currentPosts?.length ? "bg-white" : "bg-[#F8F8F8]"
             } pt-8 relative duration-300`}
           >
