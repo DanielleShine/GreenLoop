@@ -20,6 +20,7 @@ const PostCard = ({ props, defaultImage, wasteDefaultImage, loggedInUser }) => {
     createdAt,
     available,
   } = props;
+  console.log("props: ", props.available)
   const transformedTexts = transformText(wasteCategory);
 
   const queryClient = useQueryClient();

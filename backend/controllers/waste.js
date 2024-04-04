@@ -2,19 +2,20 @@ const Waste = require("../models/Waste");
 const Users = require("../models/Users");
 const Cloudinary = require("../utils/cloudinary");
 
-const wasteItems = (user, waste) => {
-  return (
-    waste && {
-      user: user,
-      id: waste?._id,
-      post: waste?.post,
-      wasteCategory: waste?.wasteCategory,
-      image: waste?.image,
-      available: waste?.available,
-      createdAt: waste?.createdAt,
-    }
-  );
-};
+// const wasteItems = (user, waste) => {
+//   console.log("wasteAvailable: ", waste?.available)
+//   return (
+//     waste && {
+//       user: user,
+//       id: waste?._id,
+//       post: waste?.post,
+//       wasteCategory: waste?.wasteCategory,
+//       image: waste?.image,
+//       createdAt: waste?.createdAt,
+//       available: waste?.available
+//     }
+//   );
+// };
 
 exports.fetchWastes = async (req, res) => {
   try {
@@ -23,7 +24,18 @@ exports.fetchWastes = async (req, res) => {
     var wasteData = Promise.all(
       wastes.map(async (waste) => {
         const user = await Users.findById(waste.user);
-        return wasteItems(user, waste);
+        console.log("wasteAvailable: ", waste.availability)
+        console.log("waste: ", waste)
+        return (
+          waste && {
+            user: user,
+            id: waste?._id,
+            post: waste?.post,
+            wasteCategory: waste?.wasteCategory,
+            available: Boolean(waste?.available),
+            image: waste?.image,
+            createdAt: waste?.createdAt,
+          })
       })
     );
 
@@ -105,8 +117,12 @@ exports.deleteWaste = async (req, res) => {
 
 exports.wasteAvailableOrNot = async (req, res) => {
   try {
+    console.log("waste update")
     const wasteId = req.params.wasteId;
     const { available } = req.body;
+    console.log("updateWasteIdAvailable: ", wasteId)
+    console.log("available: ", available)
+
     const waste = await Waste.updateOne(
       { _id: wasteId },
       {

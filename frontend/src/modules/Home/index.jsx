@@ -13,7 +13,7 @@ const Home = () => {
   const user = JSON.parse(localStorage.getItem("user:detail"));
   const { wastes, isLoading } = useWastes();
   const isLoggedIn = user !== null || false;
-
+  console.log("wastes: ", wastes)
   if (isLoading) return;
 
   return (
