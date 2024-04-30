@@ -34,6 +34,6 @@ const wasteSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Waste = mongoose.model("Waste", wasteSCheme);
+const Waste = mongoose.model("Waste", wasteSchema);
 
 module.exports = Waste;
